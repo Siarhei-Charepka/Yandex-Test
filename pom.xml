@@ -14,6 +14,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <selenium.version>3.141.59</selenium.version>
         <testng.version>7.4.0</testng.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
 
 
@@ -30,6 +31,12 @@
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
