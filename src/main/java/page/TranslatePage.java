@@ -33,7 +33,7 @@ public class TranslatePage extends PageBase {
     private WebElement keyboardButton;
 
     @FindBy(css = "#keyboard .keyboard-key")
-    private List <WebElement> keyboardChars;
+    private List<WebElement> keyboardChars;
 
     @FindBy(css = ".history_records-item-text")
     private WebElement historyRecordWord;
@@ -85,17 +85,16 @@ public class TranslatePage extends PageBase {
     public void pushChar(char ch) {
         keyboardChars.stream().filter(key -> key.getText().equals(String.valueOf(ch)))
                 .findFirst().get().click();
-
     }
     public void pushChars(String str) {
         IntStream.range(0, str.length()).forEach(i -> pushChar(str.toLowerCase().charAt(i)));
         waiter.waitForElementIsNotEmpty(translationResultContainer);
     }
 
-public void clickClearButton(){
+    public void clickClearButton(){
         clearButton.click();
         waiter.waitForElementVisibility(historyRecordWord);
-}
+    }
 
     public String getRecentRequestResult() {
         return historyRecordWord.getText();
