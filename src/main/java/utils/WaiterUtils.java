@@ -15,4 +15,12 @@ public class WaiterUtils {
     public void waitForElementVisibility(WebElement element) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
     }
+
+    public void waitForDataToBeUpdated(WebElement element, String oldValue) {
+        new WebDriverWait(driver, 10).until(driver -> !element.getText().equals(oldValue));
+    }
+
+    public void waitForElementIsNotEmpty(WebElement element) {
+        new WebDriverWait(driver, 10).until(driver -> !element.getText().isEmpty());
+    }
 }
