@@ -1,22 +1,15 @@
 package page;
 
 import base.PageBase;
-import config.TestConfig;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.Listeners;
-import utils.TestListener;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-@Listeners(TestListener.class)
 public class HomePage extends PageBase {
-
-    private static final String LOGIN = TestConfig.get("login");
-    private static final String PASSWORD = TestConfig.get("password");
-    private static final String EXAMPLE_WORD = "automation";
 
     @FindBy(css = "a[title*='yandex.com']")
     private WebElement homePageLink;
@@ -57,7 +50,7 @@ public class HomePage extends PageBase {
     @FindBy(css = ".HeadBanner-Button-Enter")
     private WebElement enterButton;
 
-    @FindBy(css = "a[href*='https://passport.yandex.com/registration/']")
+    @FindBy(css = "a[href*='registration']")
     private WebElement registrationButton;
 
     @FindBy(css = "a[href*='//translate.yandex.com']")
@@ -83,60 +76,49 @@ public class HomePage extends PageBase {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToYandexHomePage() {
+    public void searchYandexHomePage() {
         homePageLink.click();
     }
 
-    public LoginPage navigateToLoginPage() {
+    public LoginPage searchLoginPage() {
         loginLink.click();
         enterButton.click();
         return new LoginPage();
     }
 
-    public RegistrationPage navigateToRegistrationPage() {
+    public RegistrationPage searchRegistrationPage() {
         logInLink.click();
         registrationButton.click();
         return new RegistrationPage();
     }
 
-    public TranslatePage navigateToTranslatePage() {
+    public TranslatePage searchTranslatePage() {
         translatePageLink.click();
         return new TranslatePage();
     }
 
-    public MailPage navigateToMailPage() {
+    public MailPage searchMailPage(String login, String password) {
         mailButton.click();
         enterButton.click();
-        loginField.sendKeys(LOGIN);
+        loginField.sendKeys(login);
         signInButton.click();
-        passwordField.sendKeys(PASSWORD);
+        passwordField.sendKeys(password);
         signInButton.click();
         return new MailPage();
     }
 
-    public SearchResultPage navigateToSearchResultPage() {
-        searchField.sendKeys(EXAMPLE_WORD);
+    public SearchResultPage searchSearchResultPage(String testWord) {
+        searchField.sendKeys(testWord);
         searchButton.click();
         return new SearchResultPage();
     }
 
-    public boolean homePageContainerIsDisplayed() {
-        return homePageContainer.isDisplayed();
+
+    public boolean verifyHomePageContent(){
+        return Stream.of(logo, searchField, logInLink, searchField).allMatch(WebElement::isDisplayed);
     }
 
-    public boolean logoIsDisplayed() {
-        return logo.isDisplayed();
-    }
-
-    public boolean searchFieldIsDisplayed() {
-        return searchField.isDisplayed();
-    }
-
-    public boolean logInLinkIsDisplayed() {
-        return logInLink.isDisplayed();
-    }
-
-    public boolean tabLinksOverSearchFieldIsDisplayed() {
+    public boolean iSTabLinksOverSearchFieldDisplayed() {
         return tabLinksOverSearchField.stream().allMatch(WebElement::isDisplayed)
                 && tabLinksOverSearchField.size() == 7;
     }
@@ -145,25 +127,21 @@ public class HomePage extends PageBase {
         searchField.sendKeys(key);
     }
 
-    public boolean suggestionsFromSearchFieldIsDisplayed(String key) {
-        return suggestions.stream().anyMatch(suggestion -> suggestion.getText().contains(key));
+    public boolean verifySuggestionsContain(String keyWord) {
+        return suggestions.stream().allMatch(suggestion -> suggestion.getText().contains(keyWord));
     }
 
-    public void keyboardButtonClick() {
+    public void clickKeyboardButton() {
         keyboardButton.click();
     }
 
-    public boolean keyboardIsDisplayed() {
+    public boolean isKeyboardDisplayed() {
         return keyboardContainer.isDisplayed();
     }
 
     public void pushKey(char ch) {
         virtualKeyboardKeys.stream().filter(key -> key.getText().equals(String.valueOf(ch)))
                 .findFirst().get().click();
-    }
-
-    public boolean checkSearchFieldValueByChar(char ch) {
-        return searchField.getAttribute("value").equals(String.valueOf(ch));
     }
 
     public String getCharSearchFieldValue() {
@@ -174,11 +152,7 @@ public class HomePage extends PageBase {
         IntStream.range(0, str.length()).forEach(i -> pushKey(str.toLowerCase().charAt(i)));
     }
 
-    public void suggestionsClearButtonClick() {
+    public void clickSuggestionsClearButton() {
         clearSearchFieldButton.click();
-    }
-
-    public boolean checkClearSearchField() {
-        return searchField.getAttribute("value").isEmpty();
     }
 }

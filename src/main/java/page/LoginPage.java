@@ -7,8 +7,8 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends PageBase {
 
-    @FindBy(css = ".passp-auth-content")
-    private WebElement loginFormContainer;
+    @FindBy(css = ".mail-Page-Body")
+    private WebElement mailPageBody;
 
     @FindBy(css = "[id='passp-field-login']")
     private WebElement userNameField;
@@ -22,19 +22,12 @@ public class LoginPage extends PageBase {
     @FindBy(css = ".passp-route-forward [type='submit']")
     private WebElement enterPasswordButton;
 
-    @FindBy(css = ".mail-Page-Body")
-    private WebElement mailPageBody;
-
     @FindBy(css = ".Textinput-Hint")
     private WebElement errorMessage;
 
     public LoginPage() {
         super();
         PageFactory.initElements(driver, this);
-    }
-
-    public boolean loginFormContainerIsDisplayed() {
-        return loginFormContainer.isDisplayed();
     }
 
     public void inputUserName(String userName) {
@@ -45,11 +38,6 @@ public class LoginPage extends PageBase {
         enterUserNameButton.click();
     }
 
-    public void clickUserNameButtonWithWaiter() {
-        enterUserNameButton.click();
-        waiter.waitForElementVisibility(errorMessage);
-    }
-
     public void inputPassword(String password) {
         passwordField.sendKeys(password);
     }
@@ -58,15 +46,12 @@ public class LoginPage extends PageBase {
         enterPasswordButton.click();
     }
 
-    public void clickPasswordButtonWithWaiter() {
-        enterPasswordButton.click();
-        waiter.waitForElementVisibility(errorMessage);
-    }
-    public boolean mailPageBodyIsDisplayed(){
+    public boolean isMailPageDisplayed() {
         return mailPageBody.isDisplayed();
     }
 
     public String getErrorMessageText() {
+        waiter.waitForElementVisibility(errorMessage);
         return errorMessage.getText();
     }
 }

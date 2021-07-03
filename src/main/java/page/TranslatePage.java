@@ -17,8 +17,8 @@ public class TranslatePage extends PageBase {
     @FindBy(css = "#srcLangButton")
     private WebElement chooseLanguageButton;
 
-    @FindBy(css = "#srcLangListboxContent > div:nth-child(3) > div:nth-child(1)")
-    private WebElement germanLanguageButton;
+    @FindBy(css = "#srcLangListboxContent .listbox-option")
+    private List<WebElement> languages;
 
     @FindBy(css = "#fakeArea")
     private WebElement translatableContainer;
@@ -46,7 +46,7 @@ public class TranslatePage extends PageBase {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean translatePageIsDisplayed() {
+    public boolean isTranslatePageDisplayed() {
         return translatePage.isDisplayed();
     }
 
@@ -54,8 +54,9 @@ public class TranslatePage extends PageBase {
         chooseLanguageButton.click();
     }
 
-    public void clickChooseHindiLanguageButton() {
-        germanLanguageButton.click();
+    public void clickChooseLanguageButton(String languageName) {
+         languages.stream().filter(element -> element.getText().equalsIgnoreCase(languageName)).findFirst().get().click();
+
     }
 
     public String getInfoAboutLanguage(){
@@ -68,6 +69,7 @@ public class TranslatePage extends PageBase {
     }
 
     public String getTranslationResult(){
+        waiter.waitForElementIsNotEmpty(translationResultContainer);
         return translationResultContainer.getText();
     }
 
@@ -86,6 +88,7 @@ public class TranslatePage extends PageBase {
         keyboardChars.stream().filter(key -> key.getText().equals(String.valueOf(ch)))
                 .findFirst().get().click();
     }
+
     public void pushChars(String str) {
         IntStream.range(0, str.length()).forEach(i -> pushChar(str.toLowerCase().charAt(i)));
         waiter.waitForElementIsNotEmpty(translationResultContainer);
@@ -93,7 +96,6 @@ public class TranslatePage extends PageBase {
 
     public void clickClearButton(){
         clearButton.click();
-        waiter.waitForElementVisibility(historyRecordWord);
     }
 
     public String getRecentRequestResult() {

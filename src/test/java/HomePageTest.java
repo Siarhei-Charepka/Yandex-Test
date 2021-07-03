@@ -1,4 +1,5 @@
 import base.TestBase;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -7,60 +8,41 @@ import utils.TestListener;
 @Listeners(TestListener.class)
 public class HomePageTest extends TestBase {
 
-    private static final String EXPECTED_TEXT = "test";
-    private static final char KEYBOARD_KEY = 'v';
+    private static final String TEST = "test";
+    private static final char KEY = 'v';
     private static final String KEYBOARD_TEXT = "Hello";
 
     @Test
-    public void homePageContainerIsDisplayedTest() {
-        Assert.assertTrue(homePage.homePageContainerIsDisplayed());
+    public void isMainContentDisplayedTest() {
+        Assert.assertTrue(homePage.verifyHomePageContent());
+        Assert.assertTrue(homePage.iSTabLinksOverSearchFieldDisplayed());
     }
 
     @Test
-    public void logoIsDisplayedTest() {
-        Assert.assertTrue(homePage.logoIsDisplayed());
+    public void searchFieldSuggestionsTest() {
+        homePage.inputKeyToSearchField(TEST);
+        Assert.assertTrue(homePage.verifySuggestionsContain(TEST));
     }
 
     @Test
-    public void searchFieldIsDisplayedTest() {
-        Assert.assertTrue(homePage.searchFieldIsDisplayed());
-    }
-
-    @Test
-    public void logInLinkIsDisplayedTest() {
-        Assert.assertTrue(homePage.logInLinkIsDisplayed());
-    }
-
-    @Test
-    public void tabLinksOverSearchFieldIsDisplayedTest() {
-        Assert.assertTrue(homePage.tabLinksOverSearchFieldIsDisplayed());
-    }
-
-    @Test
-    public void getSuggestionsFromTheSearchFieldTest() {
-        homePage.inputKeyToSearchField(EXPECTED_TEXT);
-        Assert.assertTrue(homePage.suggestionsFromSearchFieldIsDisplayed(EXPECTED_TEXT));
-    }
-
-    @Test
-    public void keyboardIsDisplayedTest() {
-        homePage.keyboardButtonClick();
-        Assert.assertTrue(homePage.keyboardIsDisplayed());
+    public void keyboardVisibilityTest() {
+        homePage.clickKeyboardButton();
+        Assert.assertTrue(homePage.isKeyboardDisplayed());
     }
 
     @Test
     public void keyboardPushKeyTest() {
-        homePage.keyboardButtonClick();
-        homePage.pushKey(KEYBOARD_KEY);
-        Assert.assertTrue(homePage.checkSearchFieldValueByChar(KEYBOARD_KEY));
-        Assert.assertEquals(String.valueOf(KEYBOARD_KEY), homePage.getCharSearchFieldValue());
+        homePage.clickKeyboardButton();
+        homePage.pushKey(KEY);
+        Assert.assertEquals(String.valueOf(KEY), homePage.getCharSearchFieldValue());
     }
 
+    @Description("the test checks the operation of the \"clear\" button in the search bar")
     @Test
-    public void keyboardPushKeysTest() {
-        homePage.keyboardButtonClick();
+    public void clearButtonTest() {
+        homePage.clickKeyboardButton();
         homePage.pushKeys(KEYBOARD_TEXT);
-        homePage.suggestionsClearButtonClick();
-        Assert.assertTrue(homePage.checkClearSearchField());
+        homePage.clickSuggestionsClearButton();
+        Assert.assertTrue(homePage.getCharSearchFieldValue().isEmpty());
     }
 }

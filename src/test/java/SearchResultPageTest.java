@@ -9,19 +9,19 @@ import utils.TestListener;
 @Listeners(TestListener.class)
 public class SearchResultPageTest extends TestBase {
 
-    private static final String WORD = "automation";
+    private static final String AUTOMATION = "automation";
 
     private SearchResultPage searchResultPage;
 
     @BeforeMethod
     public void navigateToSearchResultPage() {
-      searchResultPage = homePage.navigateToSearchResultPage();
+      searchResultPage = homePage.searchSearchResultPage(AUTOMATION);
     }
 
     @Test
     public void checkSuggestionsTest(){
         searchResultPage.clickSearchButton();
-        Assert.assertTrue(searchResultPage.suggestionsIsDisplayed(WORD));
+        Assert.assertTrue(searchResultPage.suggestionsIsDisplayed(AUTOMATION));
     }
 
     @Test

@@ -22,12 +22,7 @@ public class LoginPageTest extends TestBase {
 
     @BeforeMethod
     public void navigateToLoginPage() {
-        loginPage = homePage.navigateToLoginPage();
-    }
-
-    @Test
-    public void loginPageIsDisplayedTest() {
-        Assert.assertTrue(loginPage.loginFormContainerIsDisplayed());
+        loginPage = homePage.searchLoginPage();
     }
 
     @Test
@@ -36,7 +31,8 @@ public class LoginPageTest extends TestBase {
         loginPage.clickUserNameButton();
         loginPage.inputPassword(PASSWORD);
         loginPage.clickPasswordButton();
-        Assert.assertTrue(loginPage.mailPageBodyIsDisplayed());
+        Assert.assertTrue(loginPage.isMailPageDisplayed());
+
     }
 
     @Test
@@ -53,7 +49,7 @@ public class LoginPageTest extends TestBase {
         loginPage.inputUserName(USER_NAME);
         loginPage.clickUserNameButton();
         loginPage.inputPassword(RandomStringUtils.randomAlphabetic(8));
-        loginPage.clickPasswordButtonWithWaiter();
+        loginPage.clickPasswordButton();
         String actualErrorPasswordMessageText = loginPage.getErrorMessageText();
         Assert.assertEquals(actualErrorPasswordMessageText, EXPECTED_ERROR_INCORRECT_PASSWORD_MESSAGE_TEXT);
     }
@@ -68,7 +64,7 @@ public class LoginPageTest extends TestBase {
     @Test
     public void incorrectLoginTest() {
         loginPage.inputUserName((RandomStringUtils.randomAlphabetic(8)));
-        loginPage.clickUserNameButtonWithWaiter();
+        loginPage.clickUserNameButton();
         String actualErrorIncorrectLoginMessageText = loginPage.getErrorMessageText();
         Assert.assertEquals(actualErrorIncorrectLoginMessageText, EXPECTED_ERROR_INCORRECT_LOGIN_MESSAGE_TEXT);
     }

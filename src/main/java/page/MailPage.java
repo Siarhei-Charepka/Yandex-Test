@@ -41,44 +41,45 @@ public class MailPage extends PageBase {
         PageFactory.initElements(driver, this);
     }
 
-    public void clickComposeButton(){
+    public void clickComposeButton() {
         composeButton.click();
     }
 
-    public boolean letterFormContainerIsDisplayed(){
+    public boolean iSLetterFormContainerDisplayed() {
         return letterFormContainer.isDisplayed();
     }
 
-    public boolean mailPackagesIsDisplayed(){
+    public boolean isMailPackagesDisplayed() {
         return packages.stream().allMatch(WebElement::isDisplayed) && packages.size() == 5;
     }
 
-    public void clickSettingButton(){
+    public void clickSettingButton() {
         settingButton.click();
-        waiter.waitForElementVisibility(settingContainer);
     }
 
-    public boolean settingContainerIsDisplayed(){
+    public boolean iSSettingContainerDisplayed() {
+        waiter.waitForElementVisibility(settingContainer);
         return settingContainer.isDisplayed();
     }
 
-    public void clickInputSearchField(){
+    public void clickInputSearchField() {
         searchInputField.click();
-        waiter.waitForElementVisibility(suggestionsContainer);
     }
 
-    public boolean suggestionsContainerIsDisplayed(){
+    public boolean isSuggestionsContainerDisplayed() {
+        waiter.waitForElementVisibility(suggestionsContainer);
         return suggestionsContainer.isDisplayed();
     }
 
-    public void enterContactIntoSearchField(String contact){
+    public void enterContactIntoSearchField(String contact) {
         searchInputField.sendKeys(contact);
     }
-    public void clickSearchButton (){
+
+    public void clickSearchButton() {
         searchButton.click();
     }
 
-    public boolean notFoundBlockIsDisplayed(){
+    public boolean notFoundBlockIsDisplayed() {
         return notFoundBlock.isDisplayed();
     }
 }

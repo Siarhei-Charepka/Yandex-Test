@@ -9,7 +9,7 @@ import utils.TestListener;
 @Listeners(TestListener.class)
 public class TranslatePageTest extends TestBase {
 
-    private static final String EXPECTED_LANGUAGE = "GERMAN";
+    private static final String EXPECTED_LANGUAGE = "german";
     private static final String TRANSLATION_WORD = "test";
     private static final String EXPECTED_TRANSLATION_RESULT = "тест";
     private static final String RELATED_WORD = "verify";
@@ -19,20 +19,20 @@ public class TranslatePageTest extends TestBase {
 
     @BeforeMethod
     public void navigateToTranslatePage() {
-        translatePage = homePage.navigateToTranslatePage();
+        translatePage = homePage.searchTranslatePage();
     }
 
     @Test
     public void translatePageIsDisplayedTest() {
-        translatePage.translatePageIsDisplayed();
+        translatePage.isTranslatePageDisplayed();
     }
 
     @Test
     public void chooseLanguageButtonTest() {
         translatePage.clickLanguageButton();
-        translatePage.clickChooseHindiLanguageButton();
+        translatePage.clickChooseLanguageButton(EXPECTED_LANGUAGE);
         String actualLanguage = translatePage.getInfoAboutLanguage();
-        Assert.assertEquals(actualLanguage, EXPECTED_LANGUAGE);
+        Assert.assertEquals(actualLanguage, EXPECTED_LANGUAGE.toUpperCase());
     }
 
     @Test
